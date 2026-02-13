@@ -1,0 +1,8 @@
+{
+  "name": "Copy of CyberGuard ML SOC Enterprise",
+  "description": "نظام احترافي لمراقبة وتحليل أمن الشبكات المحلية باستخدام الذكاء الاصطناعي.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
