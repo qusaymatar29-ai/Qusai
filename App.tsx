@@ -141,30 +141,44 @@ const App: React.FC = () => {
         <div className="flex-1 overflow-y-auto p-12 custom-scroll relative z-10">
           
           {activeTab === 'topology' && (
-            <div className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 transition-all ${isLockedDown ? 'opacity-20 pointer-events-none' : 'opacity-100'}`}>
-              {nodes.map(node => (
-                <div key={node.id} className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 hover:bg-white/[0.04] transition-all group border-b-2 hover:border-b-indigo-500">
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-indigo-500/5 border border-indigo-500/10 text-indigo-400 group-hover:scale-110 transition-transform">
-                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={DEVICE_TYPE_ICONS[node.type]} /></svg>
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-black text-slate-200 uppercase tracking-tighter text-sm">{node.deviceName}</h4>
-                      <p className="text-[10px] text-slate-500 font-mono">{node.ip}</p>
-                    </div>
-                  </div>
-                  <div className="text-[9px] font-mono text-slate-400 mb-8 space-y-2 uppercase">
-                    <div className="flex justify-between"><span>Vendor:</span> <span className="text-white">{node.vendor}</span></div>
-                    <div className="flex justify-between"><span>MAC:</span> <span className="text-white">{node.mac}</span></div>
-                  </div>
-                  <button 
-                    onClick={() => handleDeepAnalysis(node)}
-                    className="w-full py-3 rounded-xl bg-indigo-600/5 hover:bg-indigo-600 text-indigo-400 hover:text-white text-[9px] font-black uppercase tracking-widest transition-all border border-indigo-500/20"
-                  >
-                    Open Forensic Log
-                  </button>
+            <div className={`transition-all ${isLockedDown ? 'opacity-20 pointer-events-none' : 'opacity-100'}`}>
+              {nodes.length === 0 ? (
+                <div className="flex flex-col items-center justify-center rounded-3xl border border-white/5 bg-white/[0.01] py-20 text-center">
+                  <div className={`w-10 h-10 rounded-full border-2 border-indigo-500/20 ${isScanning ? 'border-t-indigo-500 animate-spin' : ''}`}></div>
+                  <p className="mt-6 text-[10px] font-black uppercase tracking-[0.5em] text-slate-500">
+                    {isScanning ? 'Asset Discovery In Progress' : 'No Assets Detected'}
+                  </p>
+                  <p className="mt-2 text-[9px] font-mono text-slate-600">
+                    {isScanning ? 'Synchronizing inventory across monitored segments.' : 'Run Asset Discovery to populate network inventory.'}
+                  </p>
                 </div>
-              ))}
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {nodes.map(node => (
+                    <div key={node.id} className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 hover:bg-white/[0.04] transition-all group border-b-2 hover:border-b-indigo-500">
+                      <div className="flex items-center gap-4 mb-8">
+                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-indigo-500/5 border border-indigo-500/10 text-indigo-400 group-hover:scale-110 transition-transform">
+                          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={DEVICE_TYPE_ICONS[node.type]} /></svg>
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-black text-slate-200 uppercase tracking-tighter text-sm">{node.deviceName}</h4>
+                          <p className="text-[10px] text-slate-500 font-mono">{node.ip}</p>
+                        </div>
+                      </div>
+                      <div className="text-[9px] font-mono text-slate-400 mb-8 space-y-2 uppercase">
+                        <div className="flex justify-between"><span>Vendor:</span> <span className="text-white">{node.vendor}</span></div>
+                        <div className="flex justify-between"><span>MAC:</span> <span className="text-white">{node.mac}</span></div>
+                      </div>
+                      <button 
+                        onClick={() => handleDeepAnalysis(node)}
+                        className="w-full py-3 rounded-xl bg-indigo-600/5 hover:bg-indigo-600 text-indigo-400 hover:text-white text-[9px] font-black uppercase tracking-widest transition-all border border-indigo-500/20"
+                      >
+                        Open Forensic Log
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
